@@ -7,12 +7,20 @@ var eventBus = require('byteballcore/event_bus.js');
 var push = require('./push');
 
 eventBus.on('peer_version', function (ws, body) {
+    // In any case send new version message for old version wallets.
+    // This will interpreted like migration in new version
+    network.sendJustsaying(ws, 'new_version', {
+        version: conf.minClientVersion,
+        downloadUrl: conf.downloadUrl // This is not existing in conf js. It is added in case of send url from hub
+    });
+	/*
 	if (body.program == conf.clientName) {
 		if (conf.minClientVersion && compareVersions(body.program_version, conf.minClientVersion) == '<')
 			network.sendJustsaying(ws, 'new_version', {version: conf.minClientVersion});
 		if (compareVersions(body.program_version, '1.1.0') == '<')
 			ws.close(1000, "mandatory upgrade");
 	}
+	*/
 });
 
 eventBus.on('mci_became_stable', function (mci) {
