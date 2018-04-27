@@ -1,6 +1,6 @@
-var db = require('byteballcore/db');
-var conf = require('byteballcore/conf');
-var eventBus = require('byteballcore/event_bus.js');
+var db = require('core/db');
+var conf = require('core/conf');
+var eventBus = require('core/event_bus.js');
 var https = require('https');
 
 

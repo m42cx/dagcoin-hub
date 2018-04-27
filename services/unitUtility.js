@@ -2,14 +2,13 @@
 
 function Unit(hash) {
     this.hash = hash;
-    this.dbManager = require('dagcoin-core/lib/databaseManager').getInstance();
 }
 
 Unit.prototype.load = function () {
     const self = this;
 
-    const storage = require('byteballcore/storage');
-    const db = require('byteballcore/db');
+    const storage = require('core/storage');
+    const db = require('core/db');
 
     return new Promise((resolve, reject) => {
         storage.readJoint(db, self.hash, {
@@ -44,7 +43,7 @@ Unit.prototype.checkIsDagcoin = function () {
         return Promise.reject(new Error('NO MESSAGES IN THE UNIT'));
     }
 
-    const conf = require('byteballcore/conf');
+    const conf = require('core/conf');
 
     return new Promise((resolve, reject) => {
         try {
@@ -92,7 +91,7 @@ Unit.prototype.checkHasAuthor = function (address) {
 Unit.prototype.getDagcoinReceivers = function () {
     const self = this;
 
-    const conf = require('byteballcore/conf');
+    const conf = require('core/conf');
 
     const addresses = [];
 
@@ -123,7 +122,7 @@ Unit.prototype.getDagcoinReceivers = function () {
 Unit.prototype.getDagcoinPaymentAuthors = function () {
     const self = this;
 
-    const conf = require('byteballcore/conf');
+    const conf = require('core/conf');
 
     const authors = [];
 
@@ -244,16 +243,20 @@ Unit.prototype.getAdditionalPaymentInfo = function (unitInfo) {
 Unit.prototype.checkIsStable = function () {
     const self = this;
 
-    return self.dbManager.query('SELECT is_stable FROM units WHERE unit = ?', [self.hash]).then((rows) => {
-        if (rows == null || rows.length === 0) {
-            return Promise.reject(`UNIT WITH HASH ${self.hash} NOT FOUND IN THE DATABASE`);
-        }
+    const db = require('core/db');
 
-        if (rows.length > 1) {
-            return Promise.reject(`MORE THAN ONE UNIT ROW FOR HASH ${self.hash} THIS IS A SERIOUS DATABASE INCONSISTENCY PROBLEM`);
-        }
+    return new Promise((resolve, reject) => {
+        db.query('SELECT is_stable FROM units WHERE unit = ?', [self.hash], (rows) => {
+            if (rows == null || rows.length === 0) {
+                return reject(`UNIT WITH HASH ${self.hash} NOT FOUND IN THE DATABASE`);
+            }
 
-        return Promise.resolve(rows[0].is_stable === 1);
+            if (rows.length > 1) {
+                return reject(`MORE THAN ONE UNIT ROW FOR HASH ${self.hash} THIS IS A SERIOUS DATABASE INCONSISTENCY PROBLEM`);
+            }
+
+            resolve(rows[0].is_stable === 1);
+        });
     });
 };
 

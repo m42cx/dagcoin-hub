@@ -2,8 +2,8 @@
 "use strict";
 require('byteball-relay');
 var conf = require('./conf');
-var network = require('byteballcore/network');
-var eventBus = require('byteballcore/event_bus.js');
+var network = require('core/network');
+var eventBus = require('core/event_bus.js');
 var push = require('./push');
 
 eventBus.on('peer_version', function (ws, body) {
@@ -27,7 +27,7 @@ eventBus.on('mci_became_stable', function (mci) {
     const Unit = require('./services/unitUtility');
 	console.log('STABLE MCI: ' + JSON.stringify(mci));
 
-    const db = require('byteballcore/db');
+    const db = require('core/db');
     db.query('SELECT unit FROM units WHERE main_chain_index = ?', [mci], (rows) => {
     	if (rows == null || rows.length === 0) {
     		return;
@@ -67,8 +67,8 @@ eventBus.on('mci_became_stable', function (mci) {
 });
 
 function receipt(receiptRequest) {
-	const storage = require('byteballcore/storage');
-	const db = require('byteballcore/db');
+	const storage = require('core/storage');
+	const db = require('core/db');
 
     const Unit = require('./services/unitUtility');
     const unit = new Unit(receiptRequest.unitHash);
@@ -95,26 +95,6 @@ function checkAuthor(unit, address) {
         }
     });
 }
-
-/* const paymentProofService = require('./services/paymentProofService').getInstance();
-
-paymentProofService.issuePaymentProof(
-    {
-        address: 'RUXRF5BTPB7ANLLQBSN6CAQBQXRNWJPM',
-        address_definition: '["sig",{"pubkey":"A/G7GCUF63j6Do2CFVTGJqQjIjmjOO1iRT0HV4dnHR0B"}]',
-        text_signature: 'hnzBYkFac6e8gqZVrgACeGJKFzt8Fp/LQNQ9XGvmy0dgBqj8+drYMKltgCc0Nhfq54qSXEHrQHmZK67ensJFug=='
-    },
-    '1231',
-    'Quj2h6Kb73/gC4YwLkFEC3Wjwyn4cPJ3nZZD5WmlHfQ='
-).catch((e) => {
-    console.error(e, e.stack);
-}).then(() => {
-    process.exit();
-}); */
-
-//receipt('OISL1Jy7zKI6H75OM4+ir8vIFZIWoTUfBhksZ1vwmcY=') // bytes only
-
-
 
 function compareVersions(currentVersion, minVersion) {
 	if (currentVersion === minVersion) return '==';
@@ -190,7 +170,7 @@ function startBalanceService() {
 
 function getAddressBalances(address) {
 	return new Promise((resolve) => {
-        const db = require('byteballcore/db');
+        const db = require('core/db');
         db.query(
         	"SELECT COALESCE(outputs.asset, 'base') as asset, units.is_stable as stable, sum(outputs.amount) as amount \n\
 			FROM outputs, units \n\
