@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "core": "git+https://github.com/dagcoin/core.git",
-    "byteball-relay": "git+https://github.com/byteball/byteball-relay.git",
+    "relay": "git+https://github.com/dagcoin/relay.git",
     "express": "^4.16.1",
     "request": "^2.83.0"
   }
