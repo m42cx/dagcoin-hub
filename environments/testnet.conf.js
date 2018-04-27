@@ -34,7 +34,7 @@ exports.initial_witnesses = [
 ];
 
 exports.initial_peers = [
-	'wss://experimental.dagcoin.org/spoon/'
+	'https://test-hub.dagcoin.org/spoon/'
 ];
 
 console.log('finished hub conf');
