@@ -160,7 +160,7 @@ function startBalanceService() {
 		});
     });
 
-    var server = app.listen(9852, function () {
+    var server = app.listen(conf.getUnitPort, function () {
         var host = server.address().address;
         var port = server.address().port;
 
