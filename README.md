@@ -1,6 +1,6 @@
 # Hub for Dagcoin
 
-This is a node for Byteball network that serves as [relay](../../../byteball-relay), plus facilitates exchange of end-to-end encrypted messages among devices connected to Byteball network.  The hub does not hold any private keys and cannot send payments itself.
+This is a node for Byteball network that serves as [relay](../../../relay), plus facilitates exchange of end-to-end encrypted messages among devices connected to Byteball network.  The hub does not hold any private keys and cannot send payments itself.
 Its main purpose within the Dagcoin ecosystem is to provide a notice of new versions available.
 
 The messages are used for the following purposes:
