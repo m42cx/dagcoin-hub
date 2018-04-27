@@ -2,13 +2,13 @@
 "use strict";
 
 exports.clientName = 'dagcoin-tn';
-exports.minClientVersion = '1.3.1';
+exports.minClientVersion = '1.4.5';
 
 // https://console.developers.google.com
 exports.pushApiProjectNumber = 0;
 exports.pushApiKey = '';
 
-exports.port = 6611;
+exports.port = 26612;
 //exports.myUrl = 'wss://mydomain.com/bb';
 exports.bServeAsHub = true;
 exports.bSaveJointJson = true;
@@ -17,7 +17,6 @@ exports.bLight = false;
 // this is used by wallet vendor only, to redirect bug reports to developers' email
 exports.bug_sink_email = 'admin@example.org';
 exports.bugs_from_email = 'bugs@example.org';
-exports.dagcoinAsset = 'B9dw3C3gMC+AODL/XqWjFh9jFe31jS08yf2C3zl8XGg=';
 
 exports.HEARTBEAT_TIMEOUT = 300*1000;
 
@@ -76,7 +75,7 @@ exports.initial_witnesses = [
 ];
 */
 exports.initial_peers = [
-	'wss://byteball.org/bb-test'
+	'wss://experimental.dagcoin.org/spoon/'
 ];
 
 console.log('finished hub conf');

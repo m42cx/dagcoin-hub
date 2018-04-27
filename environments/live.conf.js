@@ -2,12 +2,11 @@
 "use strict";
 
 exports.clientName = 'dagcoin';
-exports.minClientVersion = '1.3.1';
+exports.minClientVersion = '1.4.5';
 
 // https://console.developers.google.com
 exports.pushApiProjectNumber = 0;
 exports.pushApiKey = '';
-exports.dagcoinAsset = 'j5brqzPhQ0H2VNYi3i59PmlV15p54yAiSzacrQ2KqQQ=';
 
 exports.port = 6611;
 //exports.myUrl = 'wss://mydomain.com/bb';
