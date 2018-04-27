@@ -31,33 +31,7 @@ Unit.prototype.load = function () {
 };
 
 Unit.prototype.checkIsDagcoin = function () {
-    const self = this;
-
-    if (self.unit == null) {
-        return Promise.reject(new Error('UNIT IS NULL. DID YOU FORGET TO CALL load?'));
-    }
-
-    const messages = self.unit.messages;
-
-    if (messages == null) {
-        return Promise.reject(new Error('NO MESSAGES IN THE UNIT'));
-    }
-
-    const conf = require('core/conf');
-
-    return new Promise((resolve, reject) => {
-        try {
-            messages.forEach((message) => {
-                if (message.payload.asset && message.payload.asset === conf.dagcoinAsset) {
-                    resolve(true);
-                }
-            });
-
-            resolve(false);
-        } catch (e) {
-            reject(`COULD NOT PROCESS SUCCESSFULLY MESSAGES IN UNIT ${self.hash}: ${e}`);
-        }
-    });
+    return Promise.resolve(true);
 };
 
 Unit.prototype.checkHasAuthor = function (address) {
@@ -96,7 +70,7 @@ Unit.prototype.getDagcoinReceivers = function () {
     const addresses = [];
 
     self.unit.messages.forEach((message) => {
-        if (message.app === 'payment' && message.payload.asset === conf.dagcoinAsset) {
+        if (message.app === 'payment') {
             message.payload.outputs.forEach((output) => {
                 let isNew = true;
 
@@ -137,7 +111,7 @@ Unit.prototype.getDagcoinPaymentAuthors = function () {
     const loadingPromises = [];
 
     self.unit.messages.forEach((message) => {
-        if (message.app === 'payment' && message.payload.asset === conf.dagcoinAsset) {
+        if (message.app === 'payment') {
             message.payload.inputs.forEach((input) => {
                 inputs.push(input.unit);
                 const unit = new Unit(input.unit);
@@ -154,7 +128,7 @@ Unit.prototype.getDagcoinPaymentAuthors = function () {
             const unit = unitObj.unit;
 
             unit.messages.forEach((message) => {
-                if (message.app === 'payment' && message.payload.asset === conf.dagcoinAsset) {
+                if (message.app === 'payment') {
                     message.payload.outputs.forEach((output) => {
                         if (authors.indexOf(output.address) >= 0 && dagcoinPayers.indexOf(output.address) < 0) {
                             dagcoinPayers.push(output.address);
@@ -207,7 +181,7 @@ Unit.prototype.getPaymentInfo = function () {
         unitInfo.isDagcoin = isDagcoin;
 
         if (isDagcoin) {
-            unitInfo.paymentUnitId = self.hash
+            unitInfo.paymentUnitId = self.hash;
 
             return self.getAdditionalPaymentInfo(unitInfo);
         } else {
