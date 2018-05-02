@@ -25,7 +25,7 @@ exports.storage = 'sqlite';
 
 exports.paymentApi = 'https://testnetexplorer.dagcoin.org/mocks/getPaymentById?paymentId=';
 
-exports.MERCHANT_INTEGRATION_API = 'https://test-api.dagpay.io/api/invoices';
+exports.MERCHANT_INTEGRATION_API = 'https://dev-api.dagpay.io/api/invoices';
 
 /* new testnet*/
 exports.initial_witnesses = [
